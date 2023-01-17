@@ -1,7 +1,7 @@
 package com.example.shop.facade;
 
-import com.example.shop.facade.converter.PersonConverter;
 import com.example.shop.dtos.PersonDto;
+import com.example.shop.facade.converter.PersonConverter;
 import com.example.shop.models.Person;
 import com.example.shop.service.PersonServiceImpl;
 import lombok.extern.slf4j.Slf4j;

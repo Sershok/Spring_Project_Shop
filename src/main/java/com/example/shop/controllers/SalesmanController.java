@@ -1,11 +1,10 @@
 package com.example.shop.controllers;
 
-import com.example.shop.facade.converter.ProductConverter;
-import com.example.shop.facade.converter.ShopConverter;
 import com.example.shop.dtos.ProductDto;
 import com.example.shop.dtos.ShopDto;
+import com.example.shop.facade.ProductFacade;
+import com.example.shop.facade.converter.ShopConverter;
 import com.example.shop.models.Product;
-import com.example.shop.service.ProductServiceImpl;
 import com.example.shop.service.ShopService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class SalesmanController {
     @Autowired
     private ShopService shopService;
     @Autowired
-    private ProductServiceImpl productService;
+    private ProductFacade productFacade;
 
     @GetMapping("/create")
     public String createProduct(Model model) {
@@ -39,7 +38,7 @@ public class SalesmanController {
         if (bindingResult.hasErrors()) {
             return "product";
         }
-        if (!productService.createProduct(ProductConverter.getProduct(product))) {
+        if (!productFacade.createProduct(product)) {
             model.addAttribute("productnameError", "Product exists");
             return "product";
         }
@@ -49,7 +48,7 @@ public class SalesmanController {
 
     @GetMapping("/Aproduct")
     public String productList(Model model) {
-        model.addAttribute("allProducts", productService.allProducts());
+        model.addAttribute("allProducts", productFacade.allProducts());
         return "Aproduct";
     }
 
@@ -59,14 +58,14 @@ public class SalesmanController {
                                 Model model) {
         if (action.equals("delete")) {
             log.info("delete product by ID: " + productId);
-            productService.deleteById(productId);
+            productFacade.deleteById(productId);
         }
         return "redirect:/salesman/Aproduct";
     }
 
     @GetMapping("/Aproduct/gtProduct/{productId}")
     public String gtProduct(@PathVariable("productId") Long productId, Model model) {
-        model.addAttribute("allProducts", productService.productgtList(productId));
+        model.addAttribute("allProducts", productFacade.productgtList(productId));
         return "Aproduct";
     }
 
@@ -97,7 +96,7 @@ public class SalesmanController {
     @PostMapping("/add_product")
     public String submitCart(@ModelAttribute("shopDto") ShopDto shopDto) {
 
-        Product product = productService.findByName(shopDto.getProductName());
+        Product product = productFacade.findByName(shopDto.getProductName());
         shopService.AddProduct(shopDto.getName(), Collections.singletonList(product.getId()));
         return "shopSuccess";
     }

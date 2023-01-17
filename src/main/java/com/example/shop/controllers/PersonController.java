@@ -2,7 +2,7 @@ package com.example.shop.controllers;
 
 import com.example.shop.dtos.PersonDto;
 import com.example.shop.facade.PersonFacade;
-import com.example.shop.service.ProductService;
+import com.example.shop.facade.ProductFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ public class PersonController {
     @Autowired
     private PersonFacade personFacade;
     @Autowired
-    private ProductService productService;
+    private ProductFacade productFacade;
 
 
     @GetMapping("/registration")
@@ -53,7 +53,7 @@ public class PersonController {
 
     @GetMapping("/cart")
     public String addProductFromCart(Model model) {
-        model.addAttribute("allProducts", productService.allProducts());
+        model.addAttribute("allProducts", productFacade.allProducts());
         return "cart";
     }
 
@@ -72,7 +72,7 @@ public class PersonController {
 
     @GetMapping("cart/gtProduct/{productId}")
     public String gtProductFromCart(@PathVariable("productId") Long productId, Model model) {
-        model.addAttribute("allProducts", productService.productgtList(productId));
+        model.addAttribute("allProducts", productFacade.productgtList(productId));
         return "cart";
     }
 }
