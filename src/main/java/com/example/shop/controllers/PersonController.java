@@ -2,9 +2,8 @@ package com.example.shop.controllers;
 
 import com.example.shop.dtos.PersonDto;
 import com.example.shop.facade.PersonFacade;
-import com.example.shop.service.ProductService;
+import com.example.shop.facade.ProductFacade;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,10 +15,13 @@ import java.security.Principal;
 @Slf4j
 @Controller
 public class PersonController {
-    @Autowired
-    private PersonFacade personFacade;
-    @Autowired
-    private ProductService productService;
+    private final PersonFacade personFacade;
+    private final ProductFacade productFacade;
+
+    public PersonController(PersonFacade personFacade, ProductFacade productFacade) {
+        this.personFacade = personFacade;
+        this.productFacade = productFacade;
+    }
 
 
     @GetMapping("/registration")
@@ -53,7 +55,7 @@ public class PersonController {
 
     @GetMapping("/cart")
     public String addProductFromCart(Model model) {
-        model.addAttribute("allProducts", productService.allProducts());
+        model.addAttribute("allProducts", productFacade.allProducts());
         return "cart";
     }
 
@@ -72,7 +74,7 @@ public class PersonController {
 
     @GetMapping("cart/gtProduct/{productId}")
     public String gtProductFromCart(@PathVariable("productId") Long productId, Model model) {
-        model.addAttribute("allProducts", productService.productgtList(productId));
+        model.addAttribute("allProducts", productFacade.productGetList(productId));
         return "cart";
     }
 }

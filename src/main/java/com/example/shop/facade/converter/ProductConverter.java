@@ -12,7 +12,7 @@ public final class ProductConverter {
         return product;
     }
 
-    public static ProductDto getProductDto(Product product){
+    public static ProductDto getProductDto(Product product) {
         ProductDto productDto = new ProductDto();
         productDto.setName(product.getName());
         productDto.setPrice(product.getPrice());
