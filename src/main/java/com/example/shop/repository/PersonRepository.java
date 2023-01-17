@@ -1,0 +1,8 @@
+package com.example.shop.repository;
+
+import com.example.shop.models.Person;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PersonRepository extends JpaRepository<Person, Long> {
+    Person findByUsername(String username);
+}
