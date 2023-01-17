@@ -10,11 +10,11 @@ public interface PersonService {
 
     void save(Person person);
 
-    List<Person> allUsers();
+    List<Person> allPersons();
 
     void addCart(Long productId, String name);
 
-    boolean deleteUser(Long userId);
+    boolean deletePerson(Long userId);
 
     List<Person> persongtList(Long idMin);
 

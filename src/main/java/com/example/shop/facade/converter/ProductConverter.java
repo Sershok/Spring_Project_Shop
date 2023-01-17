@@ -1,4 +1,4 @@
-package com.example.shop.configs;
+package com.example.shop.facade.converter;
 
 import com.example.shop.dtos.ProductDto;
 import com.example.shop.models.Product;

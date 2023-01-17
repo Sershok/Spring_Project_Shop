@@ -42,12 +42,12 @@ public class PersonServiceImpl implements UserDetailsService, PersonService {
     }
 
     @Override
-    public List<Person> allUsers() {
+    public List<Person> allPersons() {
         return personRepository.findAll();
     }
 
     @Override
-    public boolean deleteUser(Long userId) {
+    public boolean deletePerson(Long userId) {
         if (personRepository.findById(userId).isPresent()) {
             personRepository.deleteById(userId);
             return true;
@@ -81,7 +81,6 @@ public class PersonServiceImpl implements UserDetailsService, PersonService {
         Person personFromDB = personRepository.findByUsername(person.getUsername());
 
         if (personFromDB != null) {
-
             return false;
         }
 

@@ -1,10 +1,10 @@
 package com.example.shop.controllers;
 
-import com.example.shop.configs.PersonConverter;
 import com.example.shop.dtos.PersonDto;
-import com.example.shop.service.PersonServiceImpl;
-import com.example.shop.service.ProductServiceImpl;
+import com.example.shop.facade.PersonFacade;
+import com.example.shop.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,15 +16,10 @@ import java.security.Principal;
 @Slf4j
 @Controller
 public class PersonController {
-
-    private final PersonServiceImpl personService;
-
-    private final ProductServiceImpl productService;
-
-    public PersonController(PersonServiceImpl personService, ProductServiceImpl productService) {
-        this.personService = personService;
-        this.productService = productService;
-    }
+    @Autowired
+    private PersonFacade personFacade;
+    @Autowired
+    private ProductService productService;
 
 
     @GetMapping("/registration")
@@ -47,7 +42,7 @@ public class PersonController {
             model.addAttribute("passwordError", "Пароли не совпадают");
             return "registration";
         }
-        if (!personService.createPerson(PersonConverter.getPerson(userForm))) {
+        if (!personFacade.createPerson(userForm)) {
             log.error("Person was created");
             model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
             return "registration";
@@ -69,7 +64,7 @@ public class PersonController {
                              Model model) {
 
         if (action.equals("add")) {
-            personService.addCart(productId, principal.getName());
+            personFacade.addCart(productId, principal.getName());
             log.info("add product from cart: " + principal.getName());
         }
         return "redirect:/cart";

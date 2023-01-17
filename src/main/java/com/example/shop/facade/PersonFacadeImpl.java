@@ -1,13 +1,15 @@
 package com.example.shop.facade;
 
-import com.example.shop.configs.PersonConverter;
+import com.example.shop.facade.converter.PersonConverter;
 import com.example.shop.dtos.PersonDto;
 import com.example.shop.models.Person;
 import com.example.shop.service.PersonServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component
 public class PersonFacadeImpl implements PersonFacade {
     private final PersonServiceImpl personService;
@@ -20,32 +22,29 @@ public class PersonFacadeImpl implements PersonFacade {
     @Override
     public boolean createPerson(PersonDto person) {
         Person newPerson = PersonConverter.getPerson(person);
-        personService.createPerson(newPerson);
-        return true;
+        log.info("add person: " + newPerson.getUsername() + " : " + newPerson.getId() + " : " + newPerson.getPassword());
+        return personService.createPerson(newPerson);
     }
 
-    @Override
-    public void save(PersonDto person) {
-
-    }
 
     @Override
-    public List<Person> allUsers() {
-        return null;
+    public List<Person> allPersons() {
+        return personService.allPersons();
     }
 
     @Override
     public void addCart(Long productId, String name) {
-
+        log.info("add cart: " + name + " : " + productId);
+        personService.addCart(productId, name);
     }
 
     @Override
-    public boolean deleteUser(Long userId) {
-        return false;
+    public boolean deletePerson(Long userId) {
+        return personService.deletePerson(userId);
     }
 
     @Override
     public List<Person> persongtList(Long idMin) {
-        return null;
+        return personService.persongtList(idMin);
     }
 }

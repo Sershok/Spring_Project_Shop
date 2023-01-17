@@ -1,7 +1,8 @@
 package com.example.shop.controllers;
 
-import com.example.shop.service.PersonServiceImpl;
+import com.example.shop.facade.PersonFacade;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,16 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @Controller
 public class AdminController {
-    private final PersonServiceImpl personService;
 
-    public AdminController(PersonServiceImpl personService) {
-        this.personService = personService;
-    }
+    @Autowired
+    private PersonFacade personFacade;
 
     @GetMapping("/admin")
     public String userList(Model model) {
 
-        model.addAttribute("allUsers", personService.allUsers());
+        model.addAttribute("allUsers", personFacade.allPersons());
         return "admin";
     }
 
@@ -31,7 +30,7 @@ public class AdminController {
                              Model model) {
         if (action.equals("delete")) {
             log.info("delete person by ID: " + userId);
-            personService.deleteUser(userId);
+            personFacade.deletePerson(userId);
         }
         return "redirect:/admin";
 
@@ -39,7 +38,7 @@ public class AdminController {
 
     @GetMapping("/admin/gt/{userId}")
     public String gtUser(@PathVariable("userId") Long userId, Model model) {
-        model.addAttribute("allUsers", personService.persongtList(userId));
+        model.addAttribute("allUsers", personFacade.persongtList(userId));
         return "admin";
     }
 }

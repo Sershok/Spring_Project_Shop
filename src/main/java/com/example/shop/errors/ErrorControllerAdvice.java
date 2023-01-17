@@ -17,8 +17,8 @@ public class ErrorControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String exception(Exception e, Model model) {
         String errorMessage = (e != null ? e.getMessage() : "Unknown error");
-        log.error("Error: " + errorMessage);
-        model.addAttribute("error!!!: ", errorMessage);
+        log.error("Error!!!: " + errorMessage);
+        model.addAttribute("error: ", errorMessage);
         return "error";
     }
 }

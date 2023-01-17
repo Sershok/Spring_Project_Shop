@@ -9,13 +9,11 @@ public interface PersonFacade {
 
     boolean createPerson(PersonDto person);
 
-    void save(PersonDto person);
-
-    List<Person> allUsers();
+    List<Person> allPersons();
 
     void addCart(Long productId, String name);
 
-    boolean deleteUser(Long userId);
+    boolean deletePerson(Long userId);
 
     List<Person> persongtList(Long idMin);
 }
