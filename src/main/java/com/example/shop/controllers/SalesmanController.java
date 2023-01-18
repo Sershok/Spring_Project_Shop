@@ -2,7 +2,7 @@ package com.example.shop.controllers;
 
 import com.example.shop.dtos.ProductDto;
 import com.example.shop.dtos.ShopDto;
-import com.example.shop.facade.ProductFacade;
+import com.example.shop.facade.converter.ProductConverter;
 import com.example.shop.facade.converter.ShopConverter;
 import com.example.shop.models.Product;
 import com.example.shop.service.ShopService;
